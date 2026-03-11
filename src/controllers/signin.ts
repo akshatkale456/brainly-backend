@@ -1,6 +1,6 @@
 import  type { Request,Response } from "express";
 import {signinSchema } from "../schema/schemas.js";
-export const signup = (req:Request,res:Response)=>{
+export const signin = (req:Request,res:Response)=>{
       
       const email = req.body.email;
       const password = req.body.password;
@@ -12,14 +12,14 @@ export const signup = (req:Request,res:Response)=>{
       });
       if(!validationresult.success){
           return res.status(400).json({
-               sucess: "false",
+               success: false,
                error:validationresult.error.format() 
           })
       }
       else{
           return res.status(200).json({
-               success:"true",
-               message: "signup successfully"
+               success: true,
+               message: "signin successfully"
           })
       }
 };

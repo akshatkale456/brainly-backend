@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "tsc -b & node ./dist/signin.js"
+    "dev": "tsc -b & node ./dist/server.js"
   },
   "keywords": [],
   "author": "",
