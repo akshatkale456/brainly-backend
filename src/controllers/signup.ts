@@ -1,6 +1,8 @@
 import  type { Request,Response } from "express";
 import { signupSchema } from "../schema/schemas.js";
-export const signup = (req:Request,res:Response)=>{
+import { users } from "../models/usermodal.js";
+import bcrypt from "bcrypt"
+export const signup = async(req:Request,res:Response)=>{
       const firstName = req.body.firstName;
       const lastName = req.body.lastName;
       const email = req.body.email;
@@ -14,6 +16,7 @@ export const signup = (req:Request,res:Response)=>{
             password,
             confirmPassword,
       });
+      try{
       if(!validationresult.success){
           return res.status(400).json({
                success: false,
@@ -21,10 +24,31 @@ export const signup = (req:Request,res:Response)=>{
           })
       }
       else{
-          return res.status(200).json({
-               success: true,
-               message: "signup successfully"
-          })
-      }
-};
+        const hashedpassword = await bcrypt.hash(password,5)
+        const user =  await users.create({
+           firstName,
+            lastName,
+            email,
+            hashedpassword,
+        })
+        if(user){
+            return res.status(200).json({
+                sucess :true,
+                message:"user signup successfully"
+            })
+        }
+
+        }}catch(e){
+            console.log(
+            "this is error"+ e
+            )
+    return res.status(500).json({
+        message:"an internal server error occured ",
+        success:false
+    })
+    }
+
+        }
+         
+      
     

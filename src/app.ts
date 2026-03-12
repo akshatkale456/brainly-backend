@@ -1,8 +1,8 @@
 import express from "express";
-import auth from "./routes/authRoutes.js";
+import router from "./routes/authRoutes.js";
  const app = express();
 app.use(express.json())
-app.use('/api',auth)
+app.use('/api',router)
 
 
 
