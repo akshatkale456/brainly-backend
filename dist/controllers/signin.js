@@ -32,8 +32,6 @@ export const signin = async (req, res) => {
         else {
             const checkpassword = await bcrypt.compare(password, user.hashedpassword);
             const token = jwt.sign({ user_id: user._id }, process.env.JWT_SECRET);
-            // Setting the token in the response header
-            res.setHeader("Authorization", `Bearer ${token}`);
             return res.status(200).json({
                 token: token,
                 message: "signin succesfull",

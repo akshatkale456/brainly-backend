@@ -39,8 +39,7 @@ export const signin = async(req:Request,res:Response)=>{
 
         const token = jwt.sign({user_id:user._id},process.env.JWT_SECRET as string)
         
-        // Setting the token in the response header
-        res.setHeader("Authorization", `Bearer ${token}`);
+      
         
         return res.status(200).json({
             token:token ,

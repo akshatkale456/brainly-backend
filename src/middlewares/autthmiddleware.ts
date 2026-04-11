@@ -12,8 +12,9 @@ export const authimiddleware = (req:Request,res:Response,next:NextFunction)=>{
 
     }
 
-    const decodedtoken = Jwt.verify(token,process.env.SECRET_KEY)
-    req.body.id = decodedtoken
+    const decodedtoken = Jwt.verify(token, process.env.JWT_SECRET as string) as { user_id: string };
+    res.locals.userId = decodedtoken.user_id;
+    req.body.id = decodedtoken;
     console.log(decodedtoken)
     next()
 }
