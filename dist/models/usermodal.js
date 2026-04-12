@@ -31,6 +31,10 @@ const userschema = new Schema({
         type: String,
         required: true,
         trim: true
+    },
+    profilePic: {
+        type: String,
+        default: ""
     }
 }, {
     timestamps: true,

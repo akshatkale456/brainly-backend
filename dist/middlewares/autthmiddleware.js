@@ -8,7 +8,8 @@ export const authimiddleware = (req, res, next) => {
             message: "token does not found "
         });
     }
-    const decodedtoken = Jwt.verify(token, process.env.SECRET_KEY);
+    const decodedtoken = Jwt.verify(token, process.env.JWT_SECRET);
+    res.locals.userId = decodedtoken.user_id;
     req.body.id = decodedtoken;
     console.log(decodedtoken);
     next();

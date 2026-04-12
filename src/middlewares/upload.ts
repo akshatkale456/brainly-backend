@@ -1,23 +1,19 @@
-import multer from "multer";
-
-// Configure multer storage
+import multer from "multer"
+import  type { Destination, } from "../types/type.js"
+import type { filename } from "../types/type.js"
+const destination:Destination = (req,file,cb)=>{
+        cb(null,"uploads/")
+    }
+     const Filename:filename = (req,file,cb)=>{
+        cb( null,Date.now+"-"+file.originalname)
+     }
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    // You can change 'uploads/' to wherever you want to store your files
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    // Ensuring unique filenames
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix + "-" + file.originalname);
-  },
-});
-
-// Configure the upload middleware
-export const upload = multer({ 
-  storage: storage,
-  limits: {
-    // Limit file size to 5MB (optional but recommended)
-    fileSize: 5 * 1024 * 1024 
-  }
-});
+    destination:destination,
+    filename : Filename
+})
+export  const upload = multer({
+     storage:storage,
+     limits:{
+        fileSize:5 * 1024 * 1024,
+     }
+})

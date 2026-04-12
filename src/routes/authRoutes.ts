@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { signup } from '../controllers/signup.js';
 import { signin } from '../controllers/signin.js';
-import { uploadProfilePic } from '../controllers/uploadProfilePic.js';
+import { uploadProfilePic } from '../controllers/uploadavatar.js';
 import { getuser } from '../controllers/getuser.js';
 import { authimiddleware } from '../middlewares/autthmiddleware.js';
 import { upload } from '../middlewares/upload.js';
