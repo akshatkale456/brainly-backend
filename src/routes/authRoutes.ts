@@ -15,7 +15,7 @@ router.post('/signin', signin);
 // 1. authimiddleware authenticates user
 // 2. upload.single() parses form-data and stores file
 // 3. uploadProfilePic saves filename to db
-router.post('/upload-profile-pic', authimiddleware, upload.single('profilePic'), uploadavatar);
+router.post('/upload-profile-pic', authimiddleware, upload.single('profilePic'), uploadavatar as any);
 
 // Get current user details
 router.get('/me', authimiddleware, getuser);

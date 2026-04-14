@@ -11,5 +11,11 @@ export interface Destination {
 export interface filename {
     (req: Request, file: Express.Multer.File, cb: filenamecallback): void;
 }
+export interface AuthRequest extends Request {
+    userid?: string;
+}
+export interface updateavatar extends AuthRequest {
+    file?: Express.Multer.File;
+}
 export {};
 //# sourceMappingURL=type.d.ts.map

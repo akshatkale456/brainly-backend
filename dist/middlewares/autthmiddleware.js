@@ -10,7 +10,7 @@ export const authimiddleware = (req, res, next) => {
     }
     const decodedtoken = Jwt.verify(token, process.env.JWT_SECRET);
     res.locals.userId = decodedtoken.user_id;
-    req.body.id = decodedtoken;
+    req.userid = decodedtoken.user_id;
     console.log(decodedtoken);
     next();
 };

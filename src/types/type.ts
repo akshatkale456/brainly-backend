@@ -7,3 +7,10 @@
  export interface filename{
      (req:Request,file:Express.Multer.File,cb:filenamecallback):void
 }
+ export interface AuthRequest extends Request {
+    userid?: string; // We use 'userId' (standard camelCase)
+}
+export interface updateavatar extends AuthRequest{
+    
+    file?: Express.Multer.File; // <--- Add the "?" here!
+}

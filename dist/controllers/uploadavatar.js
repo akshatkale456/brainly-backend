@@ -1,8 +1,9 @@
-import { users } from '../models/usermodal.js'; // Adjust path if needed
-export const uploadProfilePic = async (req, res) => {
+import { users } from '../models/usermodal.js';
+export const uploadavatar = async (req, res) => {
     try {
         // 1. Get userId from res.locals (set by auth middleware)
-        const userId = res.locals.userId;
+        // const userId = res.locals.userId;
+        const userId = req.userid;
         // 2. Check if file is present in req.file
         if (!req.file) {
             return res.status(400).json({
@@ -12,6 +13,24 @@ export const uploadProfilePic = async (req, res) => {
         }
         // 3. Extract the filename or path from req.file
         const filename = req.file.filename;
+        const fileSize = req.file.size;
+        const filepath = req.file.path;
+        const filetype = req.file.mimetype;
+        if (filetype !== "image/jpeg") {
+            console.log("nahi chala");
+            return res.status(400).json({
+                success: false,
+                message: "Invalid file type"
+            });
+        }
+        if (fileSize > 5 * 1024 * 1024) {
+            return res.status(400).json({
+                success: false,
+                message: "File size should be less than 5MB"
+            });
+        }
+        console.log(fileSize);
+        console.log("chalgya");
         // 4. Update the user document in MongoDB with the new profile pic filename/path
         // const updatedUser = await users.findByIdAndUpdate(userId, { profilePic: filename }, { new: true });
         // 5. Check if user exists 
