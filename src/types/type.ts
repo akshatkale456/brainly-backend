@@ -10,7 +10,7 @@
  export interface AuthRequest extends Request {
     userid?: string; // We use 'userId' (standard camelCase)
 }
-export interface updateavatar extends AuthRequest{
-    
+export interface updateavatar extends Request{
+     userid?: string;
     file?: Express.Multer.File; // <--- Add the "?" here!
 }

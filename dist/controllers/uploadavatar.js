@@ -1,6 +1,7 @@
 import { users } from '../models/usermodal.js';
 export const uploadavatar = async (req, res) => {
     try {
+        console.log("3. Entered avatar");
         // 1. Get userId from res.locals (set by auth middleware)
         // const userId = res.locals.userId;
         const userId = req.userid;
@@ -16,7 +17,8 @@ export const uploadavatar = async (req, res) => {
         const fileSize = req.file.size;
         const filepath = req.file.path;
         const filetype = req.file.mimetype;
-        if (filetype !== "image/jpeg") {
+        if (filetype !== "image/jpeg" &&
+            filetype !== "image/png") {
             console.log("nahi chala");
             return res.status(400).json({
                 success: false,
@@ -31,9 +33,15 @@ export const uploadavatar = async (req, res) => {
         }
         console.log(fileSize);
         console.log("chalgya");
+        const response = await users.findByIdAndUpdate(userId, { profilePic: filename });
         // 4. Update the user document in MongoDB with the new profile pic filename/path
         // const updatedUser = await users.findByIdAndUpdate(userId, { profilePic: filename }, { new: true });
-        // 5. Check if user exists 
+        if (!response) {
+            return res.status(400).json({
+                message: "user not found"
+            });
+        }
+        // 5. Chieck if user exists 
         // if (!updatedUser) {
         //     return res.status(404).json({ success: false, message: "User not found" });
         // }

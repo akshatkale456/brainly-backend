@@ -5,7 +5,7 @@ const destination:Destination = (req,file,cb)=>{
         cb(null,"uploads/")
     }
      const Filename:filename = (req,file,cb)=>{
-        cb( null,Date.now+"-"+file.originalname)
+        cb( null,Date.now()+"-"+file.originalname)
      }
 const storage = multer.diskStorage({
     destination:destination,
