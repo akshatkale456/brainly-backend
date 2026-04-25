@@ -6,6 +6,7 @@ import { getuser } from '../controllers/getuser.js';
 import { authimiddleware } from '../middlewares/autthmiddleware.js';
 import { upload } from '../middlewares/upload.js';
 import { multererror } from '../controllers/multererror.js';
+import { generateOverview } from '../controllers/aioverview.js';
 const router = Router();
 router.post('/signup', signup);
 router.post('/signin', signin);
@@ -16,5 +17,7 @@ router.post('/signin', signin);
 router.post('/upload-pic', authimiddleware, multererror, uploadavatar);
 // Get current user details
 router.get('/me', authimiddleware, getuser);
+// Generate AI overview based on frontend cards data
+router.post('/ai-overview', authimiddleware, generateOverview);
 export default router;
 //# sourceMappingURL=authRoutes.js.map

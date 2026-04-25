@@ -1,11 +1,12 @@
 import type { Request, Response } from "express";
 import { users } from "../models/usermodal.js";
 import 'dotenv/config';
+const BASE_URL = "http://localhost:3000/avatar";
 
 export const getuser = async (req: Request, res: Response) => {
     try {
         const userId = res.locals.userId;
-        
+
         if (!userId) {
             return res.status(401).json({
                 success: false,
@@ -13,7 +14,7 @@ export const getuser = async (req: Request, res: Response) => {
             });
         }
 
-        const user = await users.findById(userId).select('-hashedpassword');
+        const user = await users.findById(userId)
 
         if (!user) {
             return res.status(404).json({
@@ -24,7 +25,10 @@ export const getuser = async (req: Request, res: Response) => {
 
         return res.status(200).json({
             success: true,
-            user
+            User: {
+                name: user.firstName + "" + user.lastName,
+                url: user.profilePic ? `${BASE_URL}/${user.profilePic}` : ""
+            }
         });
 
     } catch (error) {

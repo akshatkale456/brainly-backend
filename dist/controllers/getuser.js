@@ -1,5 +1,6 @@
 import { users } from "../models/usermodal.js";
 import 'dotenv/config';
+const BASE_URL = "http://localhost:3000/avatar";
 export const getuser = async (req, res) => {
     try {
         const userId = res.locals.userId;
@@ -9,7 +10,7 @@ export const getuser = async (req, res) => {
                 message: "Unauthorized request. User ID missing."
             });
         }
-        const user = await users.findById(userId).select('-hashedpassword');
+        const user = await users.findById(userId);
         if (!user) {
             return res.status(404).json({
                 success: false,
@@ -18,7 +19,10 @@ export const getuser = async (req, res) => {
         }
         return res.status(200).json({
             success: true,
-            user
+            User: {
+                name: user.firstName + "" + user.lastName,
+                url: user.profilePic ? `${BASE_URL}/${user.profilePic}` : ""
+            }
         });
     }
     catch (error) {
