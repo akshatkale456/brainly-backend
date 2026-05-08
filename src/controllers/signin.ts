@@ -1,4 +1,4 @@
-import  type { Request,Response } from "express";
+import type { Request,Response } from "express";
 import {signinSchema } from "../schema/schemas.js";
 import jwt from "jsonwebtoken"
 import { users } from "../models/usermodal.js";
@@ -9,7 +9,7 @@ import bcrypt from "bcrypt"
 //     console.error("jwt_secret is not defined")
 
 export const signin = async(req:Request,res:Response)=>{
-      
+    try {
       const email = req.body.email;
       const password = req.body.password;
      
@@ -35,7 +35,12 @@ export const signin = async(req:Request,res:Response)=>{
             })
         }else{
         const checkpassword =  await bcrypt.compare(password,user.hashedpassword)
-      
+        if (!checkpassword) {
+            return res.status(403).json({
+                success: false,
+                message: "Invalid password"
+            });
+        }
 
         const token = jwt.sign({user_id:user._id},process.env.JWT_SECRET as string)
         
@@ -48,4 +53,11 @@ export const signin = async(req:Request,res:Response)=>{
         })
       }
       }
+    } catch (error) {
+        console.error("Signin error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "An internal server error occurred"
+        });
+    }
 };

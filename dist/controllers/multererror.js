@@ -5,7 +5,7 @@ export const multererror = (req, res, next) => {
     upload.single('avatar')(req, res, (err) => {
         console.log("-> Inside multer callback. Error:", err ? err.message : "None");
         if (err instanceof multer.MulterError) {
-            console.error("Multer error:", err); // ← will tell you exactly what's wrong
+            console.error("Multer error:", err);
             return res.status(400).json({ success: false, message: err.message });
         }
         else if (err) {

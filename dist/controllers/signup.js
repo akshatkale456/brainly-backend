@@ -22,6 +22,13 @@ export const signup = async (req, res) => {
             });
         }
         else {
+            const existingUser = await users.findOne({ email });
+            if (existingUser) {
+                return res.status(409).json({
+                    success: false,
+                    message: "User already exists with this email"
+                });
+            }
             const hashedpassword = await bcrypt.hash(password, 5);
             const user = await users.create({
                 firstName,
@@ -31,7 +38,7 @@ export const signup = async (req, res) => {
             });
             if (user) {
                 return res.status(200).json({
-                    sucess: true,
+                    success: true,
                     message: "user signup successfully"
                 });
             }

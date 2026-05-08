@@ -7,6 +7,9 @@ import { authimiddleware } from '../middlewares/autthmiddleware.js';
 import { upload } from '../middlewares/upload.js';
 import { multererror } from '../controllers/multererror.js';
 import { generateOverview } from '../controllers/aioverview.js';
+import { saveTodo, updateTodo, deleteTodo } from '../controllers/todo.js';
+import { saveYoutube, updateYoutube, deleteYoutube } from '../controllers/youtube.js';
+import { saveTwitter, updateTwitter, deleteTwitter } from '../controllers/twitter.js';
 const router = Router();
 router.post('/signup', signup);
 router.post('/signin', signin);
@@ -19,5 +22,15 @@ router.post('/upload-pic', authimiddleware, multererror, uploadavatar);
 router.get('/me', authimiddleware, getuser);
 // Generate AI overview based on frontend cards data
 router.post('/ai-overview', authimiddleware, generateOverview);
+// Routes for saving, updating, and deleting content cards
+router.post('/todo', authimiddleware, saveTodo);
+router.put('/todo/:id', authimiddleware, updateTodo);
+router.delete('/todo/:id', authimiddleware, deleteTodo);
+router.post('/youtube', authimiddleware, saveYoutube);
+router.put('/youtube/:id', authimiddleware, updateYoutube);
+router.delete('/youtube/:id', authimiddleware, deleteYoutube);
+router.post('/twitter', authimiddleware, saveTwitter);
+router.put('/twitter/:id', authimiddleware, updateTwitter);
+router.delete('/twitter/:id', authimiddleware, deleteTwitter);
 export default router;
 //# sourceMappingURL=authRoutes.js.map
