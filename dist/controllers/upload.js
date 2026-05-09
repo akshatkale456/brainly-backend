@@ -1,11 +1,7 @@
-
-import { users } from "../models/usermodal.js"
-import type { updateavatar} from "../types/type.js"
-import type { Response,Request } from "express"
-
-export const avatar = async (req:Request, res: Response) => {
-    const customreq =  req as updateavatar 
-    const _id = customreq.userid
+import { users } from "../models/usermodal.js";
+export const avatar = async (req, res) => {
+    const customreq = req;
+    const _id = customreq.userid;
     const name = req.file?.filename;
     console.log(name);
     try {
@@ -19,15 +15,18 @@ export const avatar = async (req:Request, res: Response) => {
                 message: "file uploaded",
                 filename: name
             });
-        } else {
+        }
+        else {
             return res.status(400).json({
                 "message": "image not uploaded"
             });
         }
-    } catch (e) {
+    }
+    catch (e) {
         console.log(e);
         return res.status(500).json({
             message: "something went wrong"
         });
     }
 };
+//# sourceMappingURL=upload.js.map

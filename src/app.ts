@@ -1,13 +1,20 @@
 import express from "express";
 import router from "./routes/authRoutes.js";
+import path from "path"
+import { fileURLToPath } from "url"
+
+
 import cors from "cors";
-import path from "path";
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use('/avatar', express.static(path.join(process.cwd(), 'uploads')));
+const filename = fileURLToPath(import.meta.url)
+console.log( import.meta.url)
+const dirname = path.dirname(filename)
+app.use('/uploads',express.static(path.join( dirname + 'uploads')))
 
-// Make uploads folder publicly available so frontend can display imgs
+
+
 
 app.use('/api', router);
 
