@@ -21,5 +21,5 @@ const todoschema = new Schema({
         trim: true
     }
 });
-export const users = mongoose.model('todo', todoschema);
+export const todos = mongoose.model('todo', todoschema);
 //# sourceMappingURL=todo.js.map

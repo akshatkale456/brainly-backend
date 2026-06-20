@@ -29,4 +29,4 @@ const todoschema = new Schema({
 
 })
 
-export const users = mongoose.model('todo', todoschema );
+export const todos = mongoose.model('todo', todoschema );

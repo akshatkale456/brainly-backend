@@ -21,5 +21,5 @@ const twitterschema = new Schema({
         trim: true
     }
 });
-export const users = mongoose.model('twitter', twitterschema);
+export const twitters = mongoose.model('twitter', twitterschema);
 //# sourceMappingURL=twitter.js.map

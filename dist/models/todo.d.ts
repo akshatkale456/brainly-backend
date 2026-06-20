@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-export declare const users: mongoose.Model<{
+export declare const todos: mongoose.Model<{
     title: string;
     complete: boolean;
     priority: string;

@@ -27,4 +27,4 @@ const youtubeschema = new Schema({
 
 
 })
-export const users = mongoose.model('youtube', youtubeschema);
+export const youtubes = mongoose.model('youtube', youtubeschema);

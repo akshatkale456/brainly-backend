@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-export declare const users: mongoose.Model<{
+export declare const twitters: mongoose.Model<{
     link: string;
     title: string;
     priority: string;

@@ -21,5 +21,5 @@ const youtubeschema = new Schema({
         trim: true
     }
 });
-export const users = mongoose.model('youtube', youtubeschema);
+export const youtubes = mongoose.model('youtube', youtubeschema);
 //# sourceMappingURL=youtube.js.map

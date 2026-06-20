@@ -27,4 +27,4 @@ const twitterschema = new Schema({
 
 
 })
- export const users = mongoose.model('twitter', twitterschema);
+ export const twitters = mongoose.model('twitter', twitterschema);
