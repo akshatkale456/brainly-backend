@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
-
 const Schema = mongoose.Schema;
-
 const roomSchema = new Schema({
     roomid: {
         type: String,
@@ -10,9 +8,9 @@ const roomSchema = new Schema({
         required: true
     },
     activeUser: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
-    }],
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user'
+        }],
     roomName: {
         type: String,
         trim: true
@@ -25,5 +23,5 @@ const roomSchema = new Schema({
 }, {
     timestamps: true
 });
-
 export const rooms = mongoose.model('room', roomSchema);
+//# sourceMappingURL=room.js.map

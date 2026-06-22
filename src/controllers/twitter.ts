@@ -1,4 +1,4 @@
-import type { AuthRequest } from "../types/type.js";
+
 import { twitters } from "../models/twitter.js";
 import type { Response } from "express";
 
