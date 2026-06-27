@@ -1,4 +1,5 @@
  import type { Request } from "express"
+ import type { WebSocket}from'ws'
 
   
  export interface AuthRequest extends Request {
@@ -11,4 +12,5 @@ export interface updateavatar extends Request{
 export interface connection{
      socket:WebSocket,
      roomid:string
+
 }
