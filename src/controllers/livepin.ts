@@ -88,6 +88,15 @@ wss?.emit('connection',ws,request,userid)
             }
         });
     }
+    // Added 'chat' message type for chat room logic
+    // Reason: The user requested to add chat room logic where other users receive the message
+    if (mess.type == "chat" || mess.type == "send_message") {
+        connectedusers.forEach((user) => {
+            if (user.roomid === mess.roomid && user.socket !== socket) {
+                user.socket.send(JSON.stringify(mess));
+            }
+        });
+    }
      } )
      socket.on('close',async()=>{
         connectedusers.filter((user)=>user.socket!=socket)
