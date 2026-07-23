@@ -1,5 +1,6 @@
 
 import { twitters } from "../models/twitter.js";
+import type { AuthRequest } from "../types/type.js";
 import type { Response } from "express";
 
 export const twitter = async (req: AuthRequest, res: Response) => {

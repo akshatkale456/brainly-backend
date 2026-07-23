@@ -1,9 +1,14 @@
 import type { Request } from "express";
+import type { WebSocket } from 'ws';
 export interface AuthRequest extends Request {
     userid?: string;
 }
 export interface updateavatar extends Request {
     userid?: string;
     file?: Express.Multer.File;
+}
+export interface connection {
+    socket: WebSocket;
+    roomid: string;
 }
 //# sourceMappingURL=type.d.ts.map

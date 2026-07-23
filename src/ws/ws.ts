@@ -1,37 +1,50 @@
-import { Socket } from "dgram";
-import WebSocket from "ws";
-import { WebSocketServer } from "ws";
-interface usertype {
-    socket:WebSocket,
-    roomid:string 
-}
-const  user :usertype[] = []
-const ws = new WebSocketServer({port:8080})
-ws.on("connection",(Socket:WebSocket)=>{
-    Socket.on("message",(rawmessage)=>{
-     const message = rawmessage.toString()
-     const mess = JSON.parse(message)
-      if(mess.type == "join"){
-        user.push({
-            socket:Socket,
-            roomid:mess.roomid
+import http from 'http';
+import { WebSocketServer, WebSocket } from 'ws';
+import url from 'url';
+import type { Socket } from 'net';
+import { wsRouter } from './router.js';
+import type { connection } from '../types/type.js';
 
-      })}
-      
+export const connectedusers: connection[] = [];
+let wss: WebSocketServer | null = null;
 
-      if(mess.type == "chat"){
-        const currentuser = Socket
-        for(let i = 0 ;i<= user.length ; i++ ){
-            if(user[i]?.socket!== currentuser && user[i]?.roomid == mess.roomid ){
-                user[i]?.socket.send(mess.payload.message)
-                
-                
+export const initializewebsocketserver = (server: http.Server) => {
+    if (wss) return;
+
+    wss = new WebSocketServer({ noServer: true });
+
+    server.on('upgrade', (request: http.IncomingMessage, socket: Socket, head: Buffer) => {
+        const { pathname, query } = url.parse(request.url || ' ', true);
+        if (pathname === '/ws') {
+            const userid = query.userid as string;
+            if (!userid) {
+                socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+                socket.destroy();
+                return;
             }
-             
+            wss?.handleUpgrade(request, socket, head, (ws) => {
+                wss?.emit('connection', ws, request, userid);
+            });
+        } else {
+            socket.destroy();
         }
+    });
 
-      }
+    wss.on("connection", (socket: WebSocket, request: http.IncomingMessage, userid: string) => {
+        socket.on("message", async (message) => {
+            try {
+                const mess = JSON.parse(message.toString());
+                await wsRouter(mess, socket, userid);
+            } catch (err) {
+                console.error("Failed to process WS message", err);
+            }
+        });
 
-    })
-
-})
+        socket.on('close', () => {
+            const index = connectedusers.findIndex((user) => user.socket === socket);
+            if (index !== -1) {
+                connectedusers.splice(index, 1);
+            }
+        });
+    });
+};
