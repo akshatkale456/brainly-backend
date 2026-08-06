@@ -1,15 +1,16 @@
 import type { WebSocket } from 'ws';
+import type { WSMessage } from '../types/type.js';
 import { rooms } from '../models/room.js';
 import { connectedusers } from './ws.js';
 
-export const handleCreateRoom = async (mess: any, socket: WebSocket, userid: string) => {
-    connectedusers.push({
+export const handleCreateRoom = async (mess: WSMessage, socket: WebSocket, userid: string) => {
+    connectedusers.set(socket, {
         socket: socket,
-        roomid: mess.roomid
+        roomName: mess.roomName
     });
     
     await rooms.create({
-        roomid: mess.roomId || mess.roomid,
+        roomid: mess.roomName, // Using roomName as roomid for fallback if required
         roomName: mess.roomName,
         ownerid: userid,
         activeUser: [userid]

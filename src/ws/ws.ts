@@ -4,8 +4,9 @@ import url from 'url';
 import type { Socket } from 'net';
 import { wsRouter } from './router.js';
 import type { connection } from '../types/type.js';
+import jwt from 'jsonwebtoken';
 
-export const connectedusers: connection[] = [];
+export const connectedusers: Map<WebSocket, connection> = new Map();
 let wss: WebSocketServer | null = null;
 
 export const initializewebsocketserver = (server: http.Server) => {
@@ -16,12 +17,23 @@ export const initializewebsocketserver = (server: http.Server) => {
     server.on('upgrade', (request: http.IncomingMessage, socket: Socket, head: Buffer) => {
         const { pathname, query } = url.parse(request.url || ' ', true);
         if (pathname === '/ws') {
-            const userid = query.userid as string;
-            if (!userid) {
+            const token = query.token as string;
+            if (!token) {
                 socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
                 socket.destroy();
                 return;
             }
+
+            let userid: string;
+            try {
+                const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { user_id: string };
+                userid = decoded.user_id;
+            } catch (err) {
+                socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+                socket.destroy();
+                return;
+            }
+
             wss?.handleUpgrade(request, socket, head, (ws) => {
                 wss?.emit('connection', ws, request, userid);
             });
@@ -41,10 +53,7 @@ export const initializewebsocketserver = (server: http.Server) => {
         });
 
         socket.on('close', () => {
-            const index = connectedusers.findIndex((user) => user.socket === socket);
-            if (index !== -1) {
-                connectedusers.splice(index, 1);
-            }
+            connectedusers.delete(socket);
         });
     });
 };

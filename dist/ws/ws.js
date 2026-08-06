@@ -1,26 +1,43 @@
-import { Socket } from "dgram";
-import WebSocket from "ws";
-import { WebSocketServer } from "ws";
-const user = [];
-const ws = new WebSocketServer({ port: 8080 });
-ws.on("connection", (Socket) => {
-    Socket.on("message", (rawmessage) => {
-        const message = rawmessage.toString();
-        const mess = JSON.parse(message);
-        if (mess.type == "join") {
-            user.push({
-                socket: Socket,
-                roomid: mess.roomid
+import http from 'http';
+import { WebSocketServer, WebSocket } from 'ws';
+import url from 'url';
+import { wsRouter } from './router.js';
+export const connectedusers = new Map();
+let wss = null;
+export const initializewebsocketserver = (server) => {
+    if (wss)
+        return;
+    wss = new WebSocketServer({ noServer: true });
+    server.on('upgrade', (request, socket, head) => {
+        const { pathname, query } = url.parse(request.url || ' ', true);
+        if (pathname === '/ws') {
+            const userid = query.userid;
+            if (!userid) {
+                socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+                socket.destroy();
+                return;
+            }
+            wss?.handleUpgrade(request, socket, head, (ws) => {
+                wss?.emit('connection', ws, request, userid);
             });
         }
-        if (mess.type == "chat") {
-            const currentuser = Socket;
-            for (let i = 0; i <= user.length; i++) {
-                if (user[i]?.socket !== currentuser && user[i]?.roomid == mess.roomid) {
-                    user[i]?.socket.send(mess.payload.message);
-                }
-            }
+        else {
+            socket.destroy();
         }
     });
-});
+    wss.on("connection", (socket, request, userid) => {
+        socket.on("message", async (message) => {
+            try {
+                const mess = JSON.parse(message.toString());
+                await wsRouter(mess, socket, userid);
+            }
+            catch (err) {
+                console.error("Failed to process WS message", err);
+            }
+        });
+        socket.on('close', () => {
+            connectedusers.delete(socket);
+        });
+    });
+};
 //# sourceMappingURL=ws.js.map

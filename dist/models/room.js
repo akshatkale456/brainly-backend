@@ -13,7 +13,9 @@ const roomSchema = new Schema({
         }],
     roomName: {
         type: String,
-        trim: true
+        trim: true,
+        unique: true,
+        required: true
     },
     ownerid: {
         type: mongoose.Schema.Types.ObjectId,

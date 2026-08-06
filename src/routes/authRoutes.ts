@@ -5,8 +5,9 @@ import { avatar } from '../controllers/upload.js';
 import { todo, deletetodo, updatetodo, gettodo } from '../controllers/todo.js';
 import { twitter, deletetwitter, updatetwitter, gettwitter } from '../controllers/twitter.js';
 import { youtube, deleteyoutube, updateyoutube, getyoutube } from '../controllers/youtube.js';
-import { arrangeMyDay } from '../controllers/arrangeMyDay.js';
-import { addEvent, getEvents, deleteEvent, updateEvent } from '../controllers/calendar.js';
+// import { arrangeMyDay } from '../controllers/arrangeMyDay.js';
+// import { addEvent, getEvents, deleteEvent, updateEvent } from '../controllers/calendar.js';
+import { getMe } from '../controllers/me.js';
 
 import { authimiddleware } from '../middlewares/autthmiddleware.js';
 import { upload } from '../utils/multer.js';
@@ -14,13 +15,16 @@ import { upload } from '../utils/multer.js';
 const router = Router();
 
 // Arrange My Day route
-router.get('/arrange-my-day', authimiddleware, arrangeMyDay);
+// router.get('/arrange-my-day', authimiddleware, arrangeMyDay);
+
+// Me route
+router.get('/me', authimiddleware, getMe);
 
 // Calendar routes
-router.get('/calendar/get', authimiddleware, getEvents);
-router.post('/calendar/event', authimiddleware, addEvent);
-router.delete('/calendar/:eventid', authimiddleware, deleteEvent);
-router.put('/calendar/:eventid', authimiddleware, updateEvent);
+// router.get('/calendar/get', authimiddleware, getEvents);
+// router.post('/calendar/event', authimiddleware, addEvent);
+// router.delete('/calendar/:eventid', authimiddleware, deleteEvent);
+// router.put('/calendar/:eventid', authimiddleware, updateEvent);
 
 router.post('/signup', signup);
 router.post('/signin', signin);

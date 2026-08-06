@@ -9,6 +9,6 @@ export interface updateavatar extends Request {
 }
 export interface connection {
     socket: WebSocket;
-    roomid: string;
+    roomName: string;
 }
 //# sourceMappingURL=type.d.ts.map

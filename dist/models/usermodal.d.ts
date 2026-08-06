@@ -6,12 +6,14 @@ export declare const users: mongoose.Model<{
     email: string;
     hashedpassword: string;
     profilePic: string;
+    token: string;
 } & mongoose.DefaultTimestampProps, {}, {}, {}, mongoose.Document<unknown, {}, {
     firstName: string;
     lastName: string;
     email: string;
     hashedpassword: string;
     profilePic: string;
+    token: string;
 } & mongoose.DefaultTimestampProps, {}, {
     timestamps: true;
 }> & {
@@ -20,6 +22,7 @@ export declare const users: mongoose.Model<{
     email: string;
     hashedpassword: string;
     profilePic: string;
+    token: string;
 } & mongoose.DefaultTimestampProps & {
     _id: mongoose.Types.ObjectId;
 } & {
@@ -32,12 +35,14 @@ export declare const users: mongoose.Model<{
     email: string;
     hashedpassword: string;
     profilePic: string;
+    token: string;
 } & mongoose.DefaultTimestampProps, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
     firstName: string;
     lastName: string;
     email: string;
     hashedpassword: string;
     profilePic: string;
+    token: string;
 } & mongoose.DefaultTimestampProps>, {}, mongoose.ResolveSchemaOptions<{
     timestamps: true;
 }>> & mongoose.FlatRecord<{
@@ -46,6 +51,7 @@ export declare const users: mongoose.Model<{
     email: string;
     hashedpassword: string;
     profilePic: string;
+    token: string;
 } & mongoose.DefaultTimestampProps> & {
     _id: mongoose.Types.ObjectId;
 } & {

@@ -35,6 +35,10 @@ const userschema = new Schema({
     profilePic: {
         type: String,
         default: ""
+    },
+    token: {
+        type: String,
+        default: null
     }
 }, {
     timestamps: true,

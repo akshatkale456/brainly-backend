@@ -1,7 +1,9 @@
 import app from './app.js';
 import http from "http";
 import cors from 'cors';
+import { initializewebsocketserver } from './ws/ws.js';
 const server = http.createServer(app);
+initializewebsocketserver(server);
 app.use(cors({
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'DELETE', 'UPDATE'],

@@ -1,9 +1,10 @@
 import type { WebSocket } from 'ws';
 import { connectedusers } from './ws.js';
+import type { WSMessage } from '../types/type.js';
 
-export const handleSend = async (mess: any, socket: WebSocket, userid: string) => {
+export const handleSend = async (mess: WSMessage, socket: WebSocket, userid: string) => {
     connectedusers.forEach((user) => {
-        if (user.roomid === mess.roomid) {
+        if (user.roomName === mess.roomName) {
             user.socket.send(JSON.stringify(mess));
         }
     });
