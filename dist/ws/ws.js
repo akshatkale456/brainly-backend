@@ -2,6 +2,7 @@ import http from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
 import url from 'url';
 import { wsRouter } from './router.js';
+import jwt from 'jsonwebtoken';
 export const connectedusers = new Map();
 let wss = null;
 export const initializewebsocketserver = (server) => {
@@ -11,8 +12,18 @@ export const initializewebsocketserver = (server) => {
     server.on('upgrade', (request, socket, head) => {
         const { pathname, query } = url.parse(request.url || ' ', true);
         if (pathname === '/ws') {
-            const userid = query.userid;
-            if (!userid) {
+            const token = query.token;
+            if (!token) {
+                socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+                socket.destroy();
+                return;
+            }
+            let userid;
+            try {
+                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                userid = decoded.user_id;
+            }
+            catch (err) {
                 socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
                 socket.destroy();
                 return;

@@ -1,3 +1,4 @@
 import type { WebSocket } from 'ws';
-export declare const handleChat: (mess: any, socket: WebSocket, userid: string) => Promise<void>;
+import type { WSMessage } from '../types/type.js';
+export declare const handleChat: (mess: WSMessage, socket: WebSocket, userid: string) => Promise<void>;
 //# sourceMappingURL=chat.d.ts.map

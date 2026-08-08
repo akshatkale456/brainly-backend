@@ -8,6 +8,7 @@ export const handleCreateRoom = async (mess: WSMessage, socket: WebSocket, useri
         socket: socket,
         roomName: mess.roomName
     });
+    console.log("you are connected")
     
     await rooms.create({
         roomid: mess.roomName, // Using roomName as roomid for fallback if required
