@@ -1,33 +1,30 @@
 import mongoose from 'mongoose';
 export declare const pincards: mongoose.Model<{
-    cardId: string;
+    type: string;
+    priority: "low" | "high" | "medium";
     roomId: string;
     createdBy: mongoose.Types.ObjectId;
-    content: string;
-    coordinates?: {
-        x: number;
-        y: number;
-    } | null;
+    link?: string | null;
+    title?: string | null;
+    content?: string | null;
 } & mongoose.DefaultTimestampProps, {}, {}, {}, mongoose.Document<unknown, {}, {
-    cardId: string;
+    type: string;
+    priority: "low" | "high" | "medium";
     roomId: string;
     createdBy: mongoose.Types.ObjectId;
-    content: string;
-    coordinates?: {
-        x: number;
-        y: number;
-    } | null;
+    link?: string | null;
+    title?: string | null;
+    content?: string | null;
 } & mongoose.DefaultTimestampProps, {}, {
     timestamps: true;
 }> & {
-    cardId: string;
+    type: string;
+    priority: "low" | "high" | "medium";
     roomId: string;
     createdBy: mongoose.Types.ObjectId;
-    content: string;
-    coordinates?: {
-        x: number;
-        y: number;
-    } | null;
+    link?: string | null;
+    title?: string | null;
+    content?: string | null;
 } & mongoose.DefaultTimestampProps & {
     _id: mongoose.Types.ObjectId;
 } & {
@@ -35,34 +32,31 @@ export declare const pincards: mongoose.Model<{
 }, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any>, {}, {}, {}, {}, {
     timestamps: true;
 }, {
-    cardId: string;
+    type: string;
+    priority: "low" | "high" | "medium";
     roomId: string;
     createdBy: mongoose.Types.ObjectId;
-    content: string;
-    coordinates?: {
-        x: number;
-        y: number;
-    } | null;
+    link?: string | null;
+    title?: string | null;
+    content?: string | null;
 } & mongoose.DefaultTimestampProps, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
-    cardId: string;
+    type: string;
+    priority: "low" | "high" | "medium";
     roomId: string;
     createdBy: mongoose.Types.ObjectId;
-    content: string;
-    coordinates?: {
-        x: number;
-        y: number;
-    } | null;
+    link?: string | null;
+    title?: string | null;
+    content?: string | null;
 } & mongoose.DefaultTimestampProps>, {}, mongoose.ResolveSchemaOptions<{
     timestamps: true;
 }>> & mongoose.FlatRecord<{
-    cardId: string;
+    type: string;
+    priority: "low" | "high" | "medium";
     roomId: string;
     createdBy: mongoose.Types.ObjectId;
-    content: string;
-    coordinates?: {
-        x: number;
-        y: number;
-    } | null;
+    link?: string | null;
+    title?: string | null;
+    content?: string | null;
 } & mongoose.DefaultTimestampProps> & {
     _id: mongoose.Types.ObjectId;
 } & {

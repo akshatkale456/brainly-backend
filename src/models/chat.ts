@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
-
 const Schema = mongoose.Schema;
-
 const chatSchema = new Schema({
     room: {
         type: mongoose.Schema.Types.ObjectId,
@@ -17,9 +15,13 @@ const chatSchema = new Schema({
         type: String,
         required: true,
         trim: true
+    },
+    type: {
+        type: String,
+        enum: ['server', 'client'],
+        required: true
     }
 }, {
     timestamps: true
 });
-
 export const chats = mongoose.model('chat', chatSchema);

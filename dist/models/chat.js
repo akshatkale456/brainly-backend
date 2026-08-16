@@ -15,6 +15,11 @@ const chatSchema = new Schema({
         type: String,
         required: true,
         trim: true
+    },
+    type: {
+        type: String,
+        enum: ['server', 'client'],
+        required: true
     }
 }, {
     timestamps: true

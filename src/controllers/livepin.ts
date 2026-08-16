@@ -1,20 +1,7 @@
 import type { Request, Response } from 'express';
 import { rooms } from '../models/room.js';
 import { pincards } from '../models/pincard.js';
-
-// Added GET HTTP route controller for live pin to get all cards instead of rooms
-// Reason: The user requested that we need all cards get route not rooms
-export const getLivePin = async (req: Request, res: Response) => {
-    try {
-        const allCards = await pincards.find({});
-        res.status(200).json({ cards: allCards });
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching cards" });
-    }
-};
-
-// Added DELETE HTTP route controller for live pin
-// Reason: The user requested to create a DELETE route
+import type { AuthRequest } from '../types/type.js';
 export const deleteLivePin = async (req: Request, res: Response) => {
     try {
         const { roomid } = req.params;
@@ -24,15 +11,81 @@ export const deleteLivePin = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Error deleting room" });
     }
 };
-
-// Added DELETE HTTP route controller for live pin card
-// Reason: The user requested to add delete for the live pin card
-export const deleteLivePinCard = async (req: Request, res: Response) => {
+export const deleteLivePinCard = async (req: AuthRequest, res: Response) => {
     try {
         const { cardId } = req.params;
-        await pincards.deleteOne({ cardId });
-        res.status(200).json({ message: "Pin card deleted successfully" });
+        const card = await pincards.findOne({ cardId });
+        if (!card) {
+            return res.status(404).json({ message: "Pin card not found" });
+        }
+        const room = await rooms.findOne({ roomid: card.roomId });
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+        if (room.ownerid.toString() === req.userid) {
+            await pincards.deleteOne({ cardId });
+            return res.status(200).json({ message: "Pin card deleted successfully" });
+        } else {
+            return res.status(403).json({ message: "Unauthorized to delete this pin card" });
+        }
     } catch (error) {
         res.status(500).json({ message: "Error deleting pin card" });
+    }
+};
+export const editLivePinCard = async (req: AuthRequest, res: Response) => {
+    try {
+        const { cardId } = req.params;
+        const { content, title, link, type, priority, read } = req.body;
+        const card = await pincards.findOne({ cardId });
+        if (!card) {
+            return res.status(404).json({ message: "Pin card not found" });
+        }
+        const room = await rooms.findOne({ roomid: card.roomId });
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+        if (room.ownerid.toString() === req.userid) {
+            await pincards.updateOne({ cardId }, { content, title, link, type, priority, read });
+            return res.status(200).json({ message: "Pin card updated successfully" });
+        } else {
+            return res.status(403).json({ message: "Unauthorized to edit this pin card" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Error updating pin card" });
+    }
+};
+export const createLivePinCard = async (req: AuthRequest, res: Response) => {
+    try {
+        const { cardId, roomId, content, title, link, type, priority } = req.body;
+        const room = await rooms.findOne({ roomid: roomId });
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+        if (room.ownerid.toString() !== req.userid) {
+            return res.status(403).json({ message: "Unauthorized: Only the room admin can create pins" });
+        }
+        const newCard = await pincards.create({
+            roomId,
+            content,
+            title,
+            link,
+            type,
+            priority,
+            createdBy: req.userid
+        });
+        res.status(201).json({ message: "Pin card created successfully", card: newCard });
+    } catch (error) {
+        res.status(500).json({ message: "Error creating pin card", error });
+    }
+};
+export const getCardsByRoomId = async (req: AuthRequest, res: Response) => {
+    try {
+        const { roomId } = req.params;
+        const cards = await pincards.find({ roomId });
+        const room = await rooms.findOne({ roomid: roomId });
+        const isAdmin = room ? (room.ownerid.toString() === req.userid) : false;
+        res.status(200).json({ cards, isAdmin });
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching cards by room id" });
     }
 };

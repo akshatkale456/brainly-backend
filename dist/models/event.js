@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-const calendarSchema = new Schema({
+const eventSchema = new Schema({
     title: {
         type: String,
         trim: true,
@@ -10,13 +10,13 @@ const calendarSchema = new Schema({
         type: String,
         trim: true
     },
-    startTime: {
+    date: {
         type: Date,
         required: true
     },
-    endTime: {
-        type: Date,
-        required: true
+    location: {
+        type: String,
+        trim: true
     },
     userid: {
         type: mongoose.Schema.Types.ObjectId,
@@ -26,4 +26,5 @@ const calendarSchema = new Schema({
 }, {
     timestamps: true
 });
-export const calendars = mongoose.model('calendar', calendarSchema);
+export const events = mongoose.model('event', eventSchema);
+//# sourceMappingURL=event.js.map

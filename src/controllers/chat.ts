@@ -1,0 +1,76 @@
+import type { Request, Response } from 'express';
+import { chats } from '../models/chat.js';
+import { rooms } from '../models/room.js';
+import type { AuthRequest } from '../types/type.js';
+export const getMessages = async (req: AuthRequest, res: Response) => {
+    try {
+        const { roomId } = req.params;
+        const room = await rooms.findOne({ roomid: roomId });
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+        const messages = await chats.find({ room: room._id }).populate('sender', 'username').sort({ createdAt: 1 });
+        res.status(200).json({ messages });
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching messages", error });
+    }
+};
+export const createMessage = async (req: AuthRequest, res: Response) => {
+    try {
+        const { roomId, message, type = 'client' } = req.body;
+        const room = await rooms.findOne({ roomid: roomId });
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+        const newMsg = await chats.create({
+            room: room._id,
+            sender: req.userid,
+            message,
+            type
+        });
+        await newMsg.populate('sender', 'username');
+        res.status(201).json({ message: "Message created", chat: newMsg });
+    } catch (error) {
+        res.status(500).json({ message: "Error creating message", error });
+    }
+};
+export const deleteMessage = async (req: AuthRequest, res: Response) => {
+    try {
+        const { messageId } = req.params;
+        const msg = await chats.findById(messageId);
+        if (!msg) {
+            return res.status(404).json({ message: "Message not found" });
+        }
+        const room = await rooms.findById(msg.room);
+        const isSender = msg.sender.toString() === req.userid;
+        const isAdmin = room && room.ownerid.toString() === req.userid;
+        if (isSender || isAdmin) {
+            await chats.findByIdAndDelete(messageId);
+            return res.status(200).json({ message: "Message deleted successfully" });
+        } else {
+            return res.status(403).json({ message: "Unauthorized to delete this message" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting message", error });
+    }
+};
+export const editMessage = async (req: AuthRequest, res: Response) => {
+    try {
+        const { messageId } = req.params;
+        const { message } = req.body;
+        const msg = await chats.findById(messageId);
+        if (!msg) {
+            return res.status(404).json({ message: "Message not found" });
+        }
+        if (msg.sender.toString() === req.userid) {
+            msg.message = message;
+            await msg.save();
+            await msg.populate('sender', 'username');
+            return res.status(200).json({ message: "Message updated successfully", chat: msg });
+        } else {
+            return res.status(403).json({ message: "Unauthorized to edit this message" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Error editing message", error });
+    }
+};

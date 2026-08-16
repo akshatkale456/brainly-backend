@@ -1,10 +1,7 @@
 import type { AuthRequest } from "../types/type.js";
 import { todos } from "../models/todo.js";
 import type { Response } from "express";
-
-
 export const todo = async (req: AuthRequest, res: Response) => {
-    
     const userid = req.userid
     console.log(userid + " nahi ayi ")
     const title = req.body.title
@@ -31,7 +28,6 @@ export const todo = async (req: AuthRequest, res: Response) => {
                 id: result._id
             })
         }
-
     } catch (e) {
         console.log(e + "have some error to save the  todo ")
         return res.status(500).json({
@@ -54,12 +50,9 @@ export const gettodo = async(req:AuthRequest,res:Response)=>{
             "data":data
          })
      }
-    
 }
-
 export const deletetodo = async (req: AuthRequest, res: Response) => {
     const todo = req.params.todoid
-
     try {
         const result = await todos.deleteOne({
             _id: todo
@@ -79,17 +72,14 @@ export const deletetodo = async (req: AuthRequest, res: Response) => {
         })
     }
 }
-
 export const updatetodo = async (req: AuthRequest, res: Response) => {
     const { title, complete, priority } = req.body
     const todo = req.params.todoid
-
     try {
         const update: any = {}
         if (title !== undefined) update.title = title
         if (complete !== undefined) update.complete = complete
         if (priority !== undefined) update.priority = priority
-
         const result = await todos.updateOne(
             { _id: todo },
             { $set: update }
@@ -104,7 +94,6 @@ export const updatetodo = async (req: AuthRequest, res: Response) => {
                 message: "update successfully"
             })
         }
-
     } catch (e) {
         console.log(e + "have some error to update the  todo ")
         return res.status(500).json({

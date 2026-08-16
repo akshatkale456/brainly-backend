@@ -1,14 +1,11 @@
-
 import { twitters } from "../models/twitter.js";
 import type { AuthRequest } from "../types/type.js";
 import type { Response } from "express";
-
 export const twitter = async (req: AuthRequest, res: Response) => {
     const userid = req.userid;
     const title = req.body.title;
     const link = req.body.link;
     const priority = req.body.priority || "low";
-
     try {
         const result = await twitters.create({
             title,
@@ -16,14 +13,12 @@ export const twitter = async (req: AuthRequest, res: Response) => {
             userid,
             priority
         });
-
         if (!result) {
             return res.status(500).json({
                 success: false,
                 message: "Failed to save the twitter post"
             });
         }
-
         return res.status(200).json({
             success: true,
             message: "Twitter post saved successfully",
@@ -38,22 +33,18 @@ export const twitter = async (req: AuthRequest, res: Response) => {
         });
     }
 };
-
 export const deletetwitter = async (req: AuthRequest, res: Response) => {
     const twitterId = req.params.twitterid;
-
     try {
         const result = await twitters.deleteOne({
             _id: twitterId
         });
-
         if (result.deletedCount === 0) {
             return res.status(404).json({
                 success: false,
                 message: "Twitter post not found"
             });
         }
-
         return res.status(200).json({
             success: true,
             message: "Twitter post deleted successfully"
@@ -67,29 +58,24 @@ export const deletetwitter = async (req: AuthRequest, res: Response) => {
         });
     }
 };
-
 export const updatetwitter = async (req: AuthRequest, res: Response) => {
     const { title, link, priority } = req.body;
     const twitterId = req.params.twitterid;
-
     try {
         const update: any = {};
         if (title !== undefined) update.title = title;
         if (link !== undefined) update.link = link;
         if (priority !== undefined) update.priority = priority;
-
         const result = await twitters.updateOne(
             { _id: twitterId },
             { $set: update }
         );
-
         if (result.matchedCount === 0) {
             return res.status(404).json({
                 success: false,
                 message: "Twitter post not found"
             });
         }
-
         return res.status(200).json({
             success: true,
             message: "Twitter post updated successfully"
@@ -103,7 +89,6 @@ export const updatetwitter = async (req: AuthRequest, res: Response) => {
         });
     }
 };
-
 export const gettwitter = async (req: AuthRequest, res: Response) => {
     const userid = req.userid;
     try {

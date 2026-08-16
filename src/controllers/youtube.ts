@@ -1,13 +1,11 @@
 import type { AuthRequest } from "../types/type.js";
 import { youtubes } from "../models/youtube.js";
 import type { Response } from "express";
-
 export const youtube = async (req: AuthRequest, res: Response) => {
     const userid = req.userid;
     const title = req.body.title;
     const link = req.body.link;
     const priority = req.body.priority || "low";
-
     try {
         const result = await youtubes.create({
             title,
@@ -15,14 +13,12 @@ export const youtube = async (req: AuthRequest, res: Response) => {
             userid,
             priority
         });
-
         if (!result) {
             return res.status(500).json({
                 success: false,
                 message: "Failed to save the YouTube video"
             });
         }
-
         return res.status(200).json({
             success: true,
             message: "YouTube video saved successfully",
@@ -62,19 +58,16 @@ export const getyoutube = async (req: AuthRequest, res: Response) => {
 };
 export const deleteyoutube = async (req: AuthRequest, res: Response) => {
     const youtubeId = req.params.youtubeid;
-
     try {
         const result = await youtubes.deleteOne({
             _id: youtubeId
         });
-
         if (result.deletedCount === 0) {
             return res.status(404).json({
                 success: false,
                 message: "YouTube video not found"
             });
         }
-
         return res.status(200).json({
             success: true,
             message: "YouTube video deleted successfully"
@@ -88,29 +81,24 @@ export const deleteyoutube = async (req: AuthRequest, res: Response) => {
         });
     }
 };
-
 export const updateyoutube = async (req: AuthRequest, res: Response) => {
     const { title, link, priority } = req.body;
     const youtubeId = req.params.youtubeid;
-
     try {
         const update: any = {};
         if (title !== undefined) update.title = title;
         if (link !== undefined) update.link = link;
         if (priority !== undefined) update.priority = priority;
-
         const result = await youtubes.updateOne(
             { _id: youtubeId },
             { $set: update }
         );
-
         if (result.matchedCount === 0) {
             return res.status(404).json({
                 success: false,
                 message: "YouTube video not found"
             });
         }
-
         return res.status(200).json({
             success: true,
             message: "YouTube video updated successfully"

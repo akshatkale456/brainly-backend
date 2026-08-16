@@ -1,10 +1,8 @@
 import { users } from "../models/usermodal.js";
 import type { Request, Response } from "express";
-
 interface AuthRequest extends Request {
     userid?: string;
 }
-
 export const getMe = async (req: Request, res: Response) => {
     const customreq = req as AuthRequest;
     try {

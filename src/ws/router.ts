@@ -4,10 +4,8 @@ import { handleJoinRoom } from './joinRoom.js';
 import { handleChat } from './chat.js';
 import { handleSend } from './send.js';
 import { handleBroadcastPin } from './broadcastPin.js';
-
 import type { WSMessage } from '../types/type.js';
 import { MessageType } from '../types/type.js';
-
 export const wsRouter = async (message: WSMessage, ws: WebSocket, userid: string) => {
     switch (message.type) {
         case MessageType.CREATE:
