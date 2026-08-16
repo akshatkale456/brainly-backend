@@ -1,6 +1,6 @@
 import mongoose, { Model } from "mongoose";
 import { Schema, model, Types } from "mongoose";
-mongoose.connect("mongodb+srv://akshat12:akshatkale321@cluster0.r4wojpd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+mongoose.connect(process.env.DB_URL || "");
 const user = new Schema({
     username: String,
     email: String,
