@@ -1,7 +1,5 @@
 import { rooms } from '../models/room.js';
 import { pincards } from '../models/pincard.js';
-// Added DELETE HTTP route controller for live pin
-// Reason: The user requested to create a DELETE route
 export const deleteLivePin = async (req, res) => {
     try {
         const { roomid } = req.params;
@@ -12,8 +10,6 @@ export const deleteLivePin = async (req, res) => {
         res.status(500).json({ message: "Error deleting room" });
     }
 };
-// Added DELETE HTTP route controller for live pin card
-// Reason: The user requested to add delete for the live pin card
 export const deleteLivePinCard = async (req, res) => {
     try {
         const { cardId } = req.params;
@@ -37,8 +33,6 @@ export const deleteLivePinCard = async (req, res) => {
         res.status(500).json({ message: "Error deleting pin card" });
     }
 };
-// Added PUT HTTP route controller for live pin card
-// Reason: The user requested to add edit for the live pin card
 export const editLivePinCard = async (req, res) => {
     try {
         const { cardId } = req.params;
@@ -74,6 +68,7 @@ export const createLivePinCard = async (req, res) => {
             return res.status(403).json({ message: "Unauthorized: Only the room admin can create pins" });
         }
         const newCard = await pincards.create({
+            cardId,
             roomId,
             content,
             title,

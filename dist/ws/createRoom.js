@@ -7,7 +7,7 @@ export const handleCreateRoom = async (mess, socket, userid) => {
     });
     console.log("you are connected");
     await rooms.create({
-        roomid: mess.roomName, // Using roomName as roomid for fallback if required
+        roomid: mess.roomName,
         roomName: mess.roomName,
         ownerid: userid,
         activeUser: [userid]

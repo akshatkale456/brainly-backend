@@ -7,7 +7,6 @@ export const getMessages = async (req, res) => {
         if (!room) {
             return res.status(404).json({ message: "Room not found" });
         }
-        // Fetch messages and populate the sender's username
         const messages = await chats.find({ room: room._id }).populate('sender', 'username').sort({ createdAt: 1 });
         res.status(200).json({ messages });
     }
@@ -28,7 +27,6 @@ export const createMessage = async (req, res) => {
             message,
             type
         });
-        // Populate sender info before returning so UI can display it
         await newMsg.populate('sender', 'username');
         res.status(201).json({ message: "Message created", chat: newMsg });
     }
@@ -44,7 +42,6 @@ export const deleteMessage = async (req, res) => {
             return res.status(404).json({ message: "Message not found" });
         }
         const room = await rooms.findById(msg.room);
-        // Allow deletion if user is sender OR room admin
         const isSender = msg.sender.toString() === req.userid;
         const isAdmin = room && room.ownerid.toString() === req.userid;
         if (isSender || isAdmin) {
@@ -67,7 +64,6 @@ export const editMessage = async (req, res) => {
         if (!msg) {
             return res.status(404).json({ message: "Message not found" });
         }
-        // Only sender can edit
         if (msg.sender.toString() === req.userid) {
             msg.message = message;
             await msg.save();

@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 export declare const pincards: mongoose.Model<{
     type: string;
     priority: "low" | "high" | "medium";
+    cardId: string;
     roomId: string;
     createdBy: mongoose.Types.ObjectId;
     link?: string | null;
@@ -10,6 +11,7 @@ export declare const pincards: mongoose.Model<{
 } & mongoose.DefaultTimestampProps, {}, {}, {}, mongoose.Document<unknown, {}, {
     type: string;
     priority: "low" | "high" | "medium";
+    cardId: string;
     roomId: string;
     createdBy: mongoose.Types.ObjectId;
     link?: string | null;
@@ -20,6 +22,7 @@ export declare const pincards: mongoose.Model<{
 }> & {
     type: string;
     priority: "low" | "high" | "medium";
+    cardId: string;
     roomId: string;
     createdBy: mongoose.Types.ObjectId;
     link?: string | null;
@@ -34,6 +37,7 @@ export declare const pincards: mongoose.Model<{
 }, {
     type: string;
     priority: "low" | "high" | "medium";
+    cardId: string;
     roomId: string;
     createdBy: mongoose.Types.ObjectId;
     link?: string | null;
@@ -42,6 +46,7 @@ export declare const pincards: mongoose.Model<{
 } & mongoose.DefaultTimestampProps, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
     type: string;
     priority: "low" | "high" | "medium";
+    cardId: string;
     roomId: string;
     createdBy: mongoose.Types.ObjectId;
     link?: string | null;
@@ -52,6 +57,7 @@ export declare const pincards: mongoose.Model<{
 }>> & mongoose.FlatRecord<{
     type: string;
     priority: "low" | "high" | "medium";
+    cardId: string;
     roomId: string;
     createdBy: mongoose.Types.ObjectId;
     link?: string | null;

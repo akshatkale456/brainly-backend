@@ -3,9 +3,6 @@ import jwt from "jsonwebtoken";
 import { users } from "../models/usermodal.js";
 import 'dotenv/config';
 import bcrypt from "bcrypt";
-// const jwt_secret = process.env.JWT_SECRET
-// if(jwt_secret === undefined){
-//     console.error("jwt_secret is not defined")
 export const signin = async (req, res) => {
     try {
         const email = req.body.email;

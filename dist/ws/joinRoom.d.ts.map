@@ -1,1 +1,1 @@
-{"version":3,"file":"joinRoom.d.ts","sourceRoot":"","sources":["../../src/ws/joinRoom.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,IAAI,CAAC;AAGpC,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,kBAAkB,CAAC;AAElD,eAAO,MAAM,cAAc,GAAU,MAAM,SAAS,EAAE,QAAQ,SAAS,EAAE,QAAQ,MAAM,kBAYtF,CAAC"}
+{"version":3,"file":"joinRoom.d.ts","sourceRoot":"","sources":["../../src/ws/joinRoom.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,IAAI,CAAC;AAGpC,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,kBAAkB,CAAC;AAClD,eAAO,MAAM,cAAc,GAAU,MAAM,SAAS,EAAE,QAAQ,SAAS,EAAE,QAAQ,MAAM,kBAWtF,CAAC"}

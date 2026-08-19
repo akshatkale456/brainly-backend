@@ -1,6 +1,12 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const pincardSchema = new Schema({
+  cardId: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true
+  },
   roomId: {
     type: String,
     required: true,

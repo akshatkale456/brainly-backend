@@ -65,6 +65,7 @@ export const createLivePinCard = async (req: AuthRequest, res: Response) => {
             return res.status(403).json({ message: "Unauthorized: Only the room admin can create pins" });
         }
         const newCard = await pincards.create({
+            cardId,
             roomId,
             content,
             title,
