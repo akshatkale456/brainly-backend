@@ -13,7 +13,18 @@ export const initializewebsocketserver = (server: http.Server) => {
     server.on('upgrade', (request: http.IncomingMessage, socket: Socket, head: Buffer) => {
         const { pathname, query } = url.parse(request.url || ' ', true);
         if (pathname === '/ws') {
-            const token = query.token as string;
+            const cookies = request.headers.cookie;
+            let token: string | undefined = query.token as string | undefined; // Keep fallback just in case
+            if (!token && cookies) {
+                const cookieParts = cookies.split(';');
+                for (const part of cookieParts) {
+                    const [key, val] = part.trim().split('=');
+                    if (key === 'token') {
+                        token = val;
+                        break;
+                    }
+                }
+            }
             if (!token) {
                 socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
                 socket.destroy();
