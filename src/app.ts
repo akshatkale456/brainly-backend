@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: ['https://brainly-8la7wdl9y-brainly1.vercel.app', 'http://localhost:5173'],
+  origin: ['https://brainly-8la7wdl9y-brainly1.vercel.app'],
   credentials: true
 }));
 
