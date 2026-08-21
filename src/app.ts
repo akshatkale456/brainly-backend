@@ -9,10 +9,10 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: [
-    'https://brainly-8la7wdl9y-brainly1.vercel.app',
-    'https://brainly-azure-phi.vercel.app'
-  ],
+  origin: function (origin, callback) {
+    // Reflect the requesting origin to allow dynamic Vercel preview URLs
+    callback(null, origin || true);
+  },
   credentials: true
 }));
 
