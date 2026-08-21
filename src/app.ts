@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: ['https://brainly-8la7wdl9y-brainly1.vercel.app'],
+  origin: ['https://brainly-azure-phi.vercel.app'],
   credentials: true
 }));
 
